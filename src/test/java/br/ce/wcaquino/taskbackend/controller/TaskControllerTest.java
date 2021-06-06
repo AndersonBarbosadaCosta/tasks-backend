@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.configuration.MockAnnotationProcessor;
 
 import br.ce.wcaquino.taskbackend.model.Task;
 import br.ce.wcaquino.taskbackend.repo.TaskRepo;
@@ -34,8 +33,7 @@ public class TaskControllerTest {
 		todo.setDueDate(LocalDate.now());
 		
 		try {
-			controller.save(todo);
-		Assert.fail("Não deveria passar aqui!");	
+			controller.save(todo);	
 		} catch (ValidationException e) {
 		 Assert.assertEquals("Fill the task description", e.getMessage());
 		}
@@ -48,8 +46,7 @@ public class TaskControllerTest {
 		todo.setTask("Descrição");
 		
 		try {
-			controller.save(todo);
-		Assert.fail("Não deveria passar aqui!");	
+			controller.save(todo);	
 		} catch (ValidationException e) {
 		 Assert.assertEquals("Fill the due date", e.getMessage());
 		}
@@ -62,8 +59,7 @@ public class TaskControllerTest {
 		todo.setDueDate(LocalDate.of(1900, 01, 01));
 		
 		try {
-			controller.save(todo);
-		Assert.fail("Não deveria passar aqui!");	
+			controller.save(todo);	
 		} catch (ValidationException e) {
 		 Assert.assertEquals("Due date must not be in past", e.getMessage());
 		}
