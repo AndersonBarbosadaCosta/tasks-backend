@@ -28,8 +28,7 @@ pipeline {
               //       waitForQualityGate abortPipeline: true
               bat 'echo quality Gate'
                   }
-           }
-        }   
+        }  
         stage ('Deploy Backend') {       
                     steps {
                         deploy adapters: [tomcat8(credentialsId: 'TomCat_Login', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target\\tasks-backend.war'              
@@ -43,8 +42,7 @@ pipeline {
                   }
                 }
         }
-
-    }   
-            
+    }
+           
 }
 
