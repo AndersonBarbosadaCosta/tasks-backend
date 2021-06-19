@@ -27,11 +27,11 @@ pipeline {
               //  timeout(time: 1, unit: 'MINUTES') {
               //       waitForQualityGate abortPipeline: true
               bat 'echo quality Gate'
-                  }
+            }
         }  
         stage ('Deploy Backend') {       
                     steps {
-                        deploy adapters: [tomcat8(credentialsId: 'TomCat_Login', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target\\tasks-backend.war'              
+                        deploy adapters: [tomcat8(credentialsId: 'TomCat_Login', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target\\tasks-backend.war'  
                         }
         }
         stage ('API Test') {
@@ -40,7 +40,16 @@ pipeline {
                     git credentialsId: 'credentials_jenkins', url: 'https://github.com/AndersonBarbosadaCosta/apiTest'
                     bat 'mvn test'
                   }
-                }
+             }
+        }
+        stage ('Deploy Front') {
+             steps {
+                 dir('frontend') {
+                    git credentialsId: 'credentials_jenkins', url: 'https://github.com/AndersonBarbosadaCosta/tasks-frontend'
+                    bat 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'TomCat_Login', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target\\tasks.war'
+                  }
+             }
         }
     }
            
