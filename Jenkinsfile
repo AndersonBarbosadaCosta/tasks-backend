@@ -23,9 +23,10 @@ pipeline {
         }  
         stage ('Quality Gate') {       
             steps {
-                sleep(60)
-                timeout(time: 1, unit: 'MINUTES') {
-                     waitForQualityGate abortPipeline: true
+                sleep(10)
+              //  timeout(time: 1, unit: 'MINUTES') {
+              //       waitForQualityGate abortPipeline: true
+              bat 'echo quality Gate'
                   }
            }
         }   
@@ -34,6 +35,15 @@ pipeline {
                         deploy adapters: [tomcat8(credentialsId: 'TomCat_Login', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target\\tasks-backend.war'              
                         }
         }
+        stage ('API Test') {
+             steps {
+                 dir('api-test') {
+                    git credentialsId: 'credentials_jenkins', url: 'https://github.com/AndersonBarbosadaCosta/apiTest'
+                    bat 'mvn test'
+                  }
+                }
+        }
+
     }   
             
 }
