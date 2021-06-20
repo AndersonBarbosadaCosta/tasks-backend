@@ -51,6 +51,15 @@ pipeline {
                   }
              }
         }
+        stage ('Functional Test') {
+             steps {
+                 dir('functional-test') {
+                    git credentialsId: 'credentials_jenkins', url: 'https://github.com/AndersonBarbosadaCosta/tasks-functional'
+                    bat 'mvn test'
+                  }
+             }
+        }
+
     }
            
 }
